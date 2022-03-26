@@ -1,0 +1,130 @@
+﻿@using System.Data
+@model DataSet
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<style>
+    table, th, td {
+        border: 1px solid black;
+        background-color: lightgray;
+    }
+
+    th {
+        text-align: center !important;
+    }
+
+    td {
+        height: 30px;
+        width: 100px;
+    }
+
+    .msg {
+        color:blue;
+        font-weight:bold;
+    }
+</style>
+
+@using (Html.BeginForm("Index", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <!-- <input type="file" name="postedFile" /> -->
+
+    <div class="form-group row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <h2> Display Firms and their Assets </h2>
+        </div>
+    </div>
+
+
+    <div class="form-group row">
+        <div class="col-md-2"></div>
+        @Html.Label("Browse Firm Info", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-8">
+            <input type="file" name="postedFile" required />
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-md-1"></div>
+        @Html.Label("Browse Asset Class - Firm Map", htmlAttributes: new { @class = "control-label col-md-3" })
+        <div class="col-md-8">
+            <input type="file" name="importedFile" required />
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-md-4"></div>
+        <!-- @Html.Label("Browse Firm Map", htmlAttributes: new { @class = "control-label col-md-2" }) -->
+        <div class="col-md-2">
+            <input type="submit" value="Upload Files">
+        </div>
+        <div class="col-md-6">
+            <!--   <button type="button" class="background-color: lightgray" onclick="location.href='@Url.Action("Reset", "HomeController")'">Reset</button> -->
+            <a href="~/Home/Index/">
+
+                <input type="button" style="color:black" value="Reset" />
+
+            </a>
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-md-4"></div>
+        <div class="col-md-8 msg">
+            @ViewBag.Message
+        </div>
+    </div>
+   
+
+
+
+    /* <h2>Basic File Upload</h2>
+     <div class="form-group control-label col-md-2">
+      //   <label for="file">Upload Image:</label>
+       //  <div class="col-md-10">
+               <label for="file">Upload Image:</label>
+             <input type="file" name="postedFile" required />
+      //   </div>
+     </div> */
+
+
+
+    /*  <input type="file" name="postedFile" id="img" style="display:none;" />
+      <label for="img">Click me to upload image</label> */
+    /* <br />
+     <br />
+    <!-- <input type="submit" value="Import"> -->
+
+     <br />
+     <br />
+     <!-- <input type="file" name="importedFile" /> -->
+     <!-- <input type="submit" value="Load"> -->
+
+     <br />
+     <br /> */
+}
+
+@if (Model != null)
+{
+    <!-- <table cellpadding="2" cellspacing="2"> -->
+    <table>
+        <tr>
+            @foreach (DataColumn col in Model.Tables[0].Columns)
+            {
+                <th align="center">@col.ColumnName</th>
+            }
+        </tr>
+
+        @foreach (DataRow row in Model.Tables[0].Rows)
+        {
+            <tr>
+                @foreach (DataColumn col in Model.Tables[0].Columns)
+                {
+                    <td align="center">@row[col.ColumnName]</td>
+                }
+            </tr>
+
+        }
+    </table>
+}
